@@ -29,7 +29,15 @@ const JobPostingCard: React.FC<JobPostingCardProps> = ({
   const experience = experienceYears && `EXP: ${experienceYears} years`;
 
   return (
-    <Box p={2} boxShadow={theme.shadows.md} borderRadius={5} borderLeft={`5px solid ${theme.colors.blue["400"]}`}>
+    <Box
+      p={2}
+      boxShadow={theme.shadows.md}
+      borderRadius={6}
+      borderLeft={`5px solid ${theme.colors.blue["400"]}`}
+      transition="0.2s"
+      _hover={{ borderLeft: `8px solid ${theme.colors.blue["400"]}`, cursor: "pointer" }}
+      _focus={{ boxShadow: "outline" }}
+    >
       <Flex justifyContent="space-between">
         <Flex>
           <Center>
