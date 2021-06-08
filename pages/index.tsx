@@ -1,11 +1,11 @@
 import React from "react";
-import { Flex } from "@chakra-ui/react";
+import JobPostingCard from "@components/JobPostingCard";
 
-const Home: React.FC = () => {
+const Home: React.FC = (pageprops) => {
   return (
-    <Flex direction="column" minH="100vh">
-      Witam hehe
-    </Flex>
+    <JobPostingCard companyName="Company" location="Location" title="Software Engineer" experienceYears={5} isRemote>
+      witam szefa
+    </JobPostingCard>
   );
 };
 
