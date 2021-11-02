@@ -1,21 +1,30 @@
-import React from "react";
-import { AppProps } from "next/app";
-import { ChakraProvider } from "@chakra-ui/react";
-import theme from "@definitions/chakra/theme";
-import "@styles/global.scss";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { Hydrate } from "react-query/hydration";
+import React from 'react';
+import { AppProps } from 'next/app';
+import Head from 'next/head';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { theme } from '../theme';
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  const queryClient = new QueryClient();
+  React.useEffect(() => {
+    const jssStyles = document.querySelector('#jss-server-side');
+    if (jssStyles) {
+      jssStyles.parentElement.removeChild(jssStyles);
+    }
+  }, []);
+
   return (
-    <ChakraProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <Component {...pageProps} />
-        </Hydrate>
-      </QueryClientProvider>
-    </ChakraProvider>
+    <>
+      <Head>
+        <title>Internify</title>
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+      </Head>
+      <ThemeProvider theme={theme}>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </>
   );
 }
 

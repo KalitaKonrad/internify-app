@@ -1,12 +1,7 @@
-import React from "react";
-import JobPostingCard from "@components/JobPostingCard";
+import React from 'react';
 
 const Home: React.FC = (pageprops) => {
-  return (
-    <JobPostingCard companyName="Company" location="Location" title="Software Engineer" experienceYears={5} isRemote>
-      witam szefa
-    </JobPostingCard>
-  );
+  return <>witam szefa</>;
 };
 
 export default Home;
