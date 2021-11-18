@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SignIn: React.FC = () => {
+export const SignIn: React.FC<{ csrf: string }> = ({ csrf }) => {
   const router = useRouter();
   const initialFormData = Object.freeze({
     email: '',
@@ -56,19 +56,28 @@ export const SignIn: React.FC = () => {
     e.preventDefault();
     console.log(formData);
 
-    axios
-      .post(`token/`, {
+    fetch(`http://localhost:8000/api/account/login/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrf,
+      },
+      credentials: 'include',
+      body: JSON.stringify({
         email: formData.email,
         password: formData.password,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
       })
       .then((res) => {
-        localStorage.setItem('access_token', res.data.access);
-        localStorage.setItem('refresh_token', res.data.refresh);
-        axios.defaults.headers['Authorization'] = 'JWT ' + localStorage.getItem('access_token');
+        console.log({ res });
         router.push('/');
-        //console.log(res);
-        //console.log(res.data);
-      });
+      })
+      .catch((e) => console.log(e));
   };
 
   const classes = useStyles();

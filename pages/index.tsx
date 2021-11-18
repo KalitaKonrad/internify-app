@@ -1,23 +1,17 @@
-import React from 'react';
-import { signIn, signOut, useSession } from 'next-auth/client';
+import React, { useEffect } from 'react';
 
 const Home: React.FC = (pageprops) => {
-  const [session, loading] = useSession();
-
-  if (session) {
-    return (
-      <>
-        Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    );
-  }
-  return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
-  );
+  useEffect(() => {
+    fetch('http://localhost:8000/api/account/whoami/', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+      .then((c) => console.log(c))
+      .catch((c) => console.log(c));
+  }, []);
+  return <>index</>;
   // return <>witam szefa</>;
 };
 
