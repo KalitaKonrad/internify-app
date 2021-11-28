@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useRouter } from 'next/router';
-import { useAxios } from '../../utils/axios';
+import { useAxios } from '../../hooks/useAxios';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -118,12 +118,6 @@ export const SignUp: React.FC = () => {
                 id="password"
                 autoComplete="current-password"
                 onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
               />
             </Grid>
           </Grid>
