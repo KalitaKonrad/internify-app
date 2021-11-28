@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { SignIn } from '@components/organisms/SignIn';
-import { useAxios } from '../src/hooks/useAxios';
+import { SignInForm } from '@components/organisms/SignInForm';
+import { useAxios } from '../../src/hooks/useAxios';
 
-const Login: React.FC = () => {
+const SignIn: React.FC = () => {
   const [csrf, setCsrf] = useState('');
   const axios = useAxios();
 
@@ -19,7 +19,7 @@ const Login: React.FC = () => {
 
   console.log(csrf);
   console.log(axios.defaults.url);
-  return <SignIn csrf={csrf} />;
+  return <SignInForm csrf={csrf} />;
 };
 
-export default Login;
+export default SignIn;

@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SignIn: React.FC<{ csrf: string }> = ({ csrf }) => {
+export const SignInForm: React.FC<{ csrf: string }> = ({ csrf }) => {
   const router = useRouter();
   const initialFormData = Object.freeze({
     email: '',
