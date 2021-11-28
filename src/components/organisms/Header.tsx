@@ -46,6 +46,7 @@ export const Header: React.FC = () => {
         </Box>
         <BoxCenter>
           <Box mr={2}>
+            {/*TODO: Add component for displaying avatar and username which pops up to Profile settings and log out option */}
             <HeaderSignIn />
           </Box>
           <Box mr={2}>

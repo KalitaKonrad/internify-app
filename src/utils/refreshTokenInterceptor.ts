@@ -17,13 +17,23 @@ interface RefreshTokenResponse {
  */
 export const refreshTokenInterceptor = async (failedRequest: any) => {
   try {
-    const response = await axios.post<RefreshTokenResponse>('api/token/refresh/', null, {
-      skipAuthRefresh: true,
-    } as AxiosAuthRefreshRequestConfig);
+    const refreshToken = localStorage.getItem('refresh');
+
+    const response = await axios.post<RefreshTokenResponse>(
+      '/auth/token/refresh/',
+      {
+        refresh: refreshToken,
+      },
+      {
+        skipAuthRefresh: true,
+      } as AxiosAuthRefreshRequestConfig,
+    );
     const { refresh, access } = response.data;
+    console.log(response.data);
     await setToken(access);
 
     failedRequest.response.config.headers['Authorization'] = `Bearer ${access}`;
+    return Promise.resolve();
   } catch (error) {
     await deleteToken();
     return Promise.reject(error);

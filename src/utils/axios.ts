@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { refreshTokenInterceptor } from './refreshTokenInterceptor';
+import { tokenInterceptor } from './tokenInterceptor';
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
 
 /**
  * Create global HTTP client instance
@@ -12,6 +15,11 @@ const instance = axios.create({
   },
 });
 
-instance.defaults.withCredentials = true;
+// instance.defaults.withCredentials = true;
+/**
+ * Init request and response interceptors
+ */
+instance.interceptors.request.use(tokenInterceptor);
+createAuthRefreshInterceptor(instance, refreshTokenInterceptor);
 
 export default instance;
