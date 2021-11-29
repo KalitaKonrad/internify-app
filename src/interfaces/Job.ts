@@ -10,7 +10,7 @@ export interface Job {
   updated_at: string;
 }
 
-interface CompanyWithOwner extends Company {
+export interface CompanyWithOwner extends Company {
   owner: Owner;
 }
 
