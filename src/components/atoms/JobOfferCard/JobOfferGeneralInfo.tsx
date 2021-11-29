@@ -47,10 +47,10 @@ export const JobOfferGeneralInfo: React.FC<GeneralJobInfoProps> = ({ job }) => {
   const jobOfferPublishedText = formatPublishDate(new Date(job.published));
 
   return (
-    <Box display="flex" flexDirection="column" justifyContent="space-between">
+    <Box display="flex" flexDirection="column" justifyContent="space-between" py={2}>
       {/*TODO: add ... if too long*/}
       <Box display="flex">
-        <BoxCenter mr={2}>
+        <BoxCenter mr={3}>
           <Typography variant="body1" className={classes.salary}>
             {/*TODO: add salary*/}
             10000 - 15000 PLN
@@ -63,7 +63,7 @@ export const JobOfferGeneralInfo: React.FC<GeneralJobInfoProps> = ({ job }) => {
           {jobOfferPublishedText}
         </BoxCenter>
       </Box>
-      <Box display="flex" alignItems="center" flexGrow={1} justifyContent="flex-end">
+      <Box display="flex" alignItems="center" flexGrow={1} justifyContent="flex-end" mt={2}>
         5 YOE
       </Box>
     </Box>

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 export const JobOfferCompanyInfo: React.FC<JobAndCompanyInfoProps> = ({ job }) => {
   const classes = useStyles();
   return (
-    <Box display="flex" flexDirection="column" justifyContent="space-between">
+    <Box display="flex" flexDirection="column" justifyContent="space-between" mr={2}>
       {/*TODO: add ... if too long*/}
       <Typography variant="h6" color="textPrimary">
         {job.title}

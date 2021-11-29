@@ -1,10 +1,8 @@
 import React from 'react';
-import { Avatar, useMediaQuery } from '@material-ui/core';
+import { Avatar } from '@material-ui/core';
 import { BoxCenter } from '@components/atoms/BoxCenter';
 import { JobWithCompanyAndOwner } from '../../../interfaces/Job';
 import { makeStyles } from '@material-ui/core/styles';
-import { theme } from '../../../theme';
-import { useMobile } from '../../../hooks/useMobile';
 
 interface OfferAvatarProps {
   job: JobWithCompanyAndOwner;
@@ -23,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
 
 export const JobOfferAvatar: React.FC<OfferAvatarProps> = ({ job }) => {
   const classes = useStyles();
-  console.log();
 
   return (
     <BoxCenter mr={2}>

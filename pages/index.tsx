@@ -2,13 +2,8 @@ import React from 'react';
 import { useAxios } from '../src/hooks/useAxios';
 import { PaginatedData } from '../src/interfaces/PaginatedData';
 import { JobWithCompanyAndOwner } from '../src/interfaces/Job';
-import { Avatar, Box, Paper, Typography } from '@material-ui/core';
-import { BoxCenter } from '@components/atoms/BoxCenter';
-import { makeStyles } from '@material-ui/core/styles';
-import BusinessIcon from '@material-ui/icons/Business';
-import RoomIcon from '@material-ui/icons/Room';
-import { formatDistanceStrict, isToday } from 'date-fns';
 import { JobOfferCard } from '@components/molecules/JobOfferCard';
+import { BoxCenter } from '@components/atoms/BoxCenter';
 
 interface HomeProps {
   data: PaginatedData<JobWithCompanyAndOwner>;
@@ -21,11 +16,14 @@ const Home: React.FC<HomeProps> = ({ data, status }) => {
   return (
     <>
       {(data?.results || []).map((job) => {
-        return <JobOfferCard job={job} />;
+        return (
+          <BoxCenter my={1}>
+            <JobOfferCard job={job} key={job.id} />
+          </BoxCenter>
+        );
       })}
     </>
   );
-  // return <>witam szefa</>;
 };
 
 export async function getStaticProps(context) {
