@@ -3,7 +3,7 @@ import { Avatar, Button, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import NextLink from 'next/link';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { DrawerLineItem } from '@components/atoms/headerDrawer/DrawerLineItem';
+import { DrawerLineItem } from '@components/atoms/HeaderDrawer/DrawerLineItem';
 import { BoxCenter } from '@components/atoms/BoxCenter';
 
 interface DrawerProfileInfoProps {

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Button, Drawer, IconButton } from '@material-ui/core';
-import { DrawerLineItem } from '@components/atoms/headerDrawer/DrawerLineItem';
+import { DrawerLineItem } from '@components/atoms/HeaderDrawer/DrawerLineItem';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import { SignInButtons } from '@components/atoms/SignInButtons';
-import { DrawerProfileInfo } from '@components/atoms/headerDrawer/DrawerProfileInfo';
+import { DrawerProfileInfo } from '@components/atoms/HeaderDrawer/DrawerProfileInfo';
 import { makeStyles } from '@material-ui/core/styles';
 
 interface HeaderDrawerProps {

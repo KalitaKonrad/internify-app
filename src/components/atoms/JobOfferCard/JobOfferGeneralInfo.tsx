@@ -10,13 +10,15 @@ interface GeneralJobInfoProps {
 }
 
 // returns date in format like: 5h ago, 1d ago,
-const formatPublishDate = (date: Date) => {
-  if (isToday(date)) {
+export const formatPublishDate = (date: Date | string) => {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+
+  if (isToday(dateObj)) {
     return 'New';
   }
 
   // returns date like 23 hours ago / 2 days ago / 1 month ago
-  const formatted = formatDistanceStrict(date, new Date(), {
+  const formatted = formatDistanceStrict(dateObj, new Date(), {
     addSuffix: true,
   });
   const [amount, unit, ago] = formatted.split(' ');
@@ -47,7 +49,7 @@ export const JobOfferGeneralInfo: React.FC<GeneralJobInfoProps> = ({ job }) => {
   const jobOfferPublishedText = formatPublishDate(new Date(job.published));
 
   return (
-    <Box display="flex" flexDirection="column" justifyContent="space-between" py={2}>
+    <Box display="flex" flexDirection="column" justifyContent="space-between">
       {/*TODO: add ... if too long*/}
       <Box display="flex">
         <BoxCenter mr={3}>
@@ -63,8 +65,12 @@ export const JobOfferGeneralInfo: React.FC<GeneralJobInfoProps> = ({ job }) => {
           {jobOfferPublishedText}
         </BoxCenter>
       </Box>
-      <Box display="flex" alignItems="center" flexGrow={1} justifyContent="flex-end" mt={2}>
-        5 YOE
+      <Box display="flex" alignItems="center" justifyContent="flex-end" mt={2}>
+        <BoxCenter>
+          <Typography variant="body1" color="textPrimary">
+            {/*TODO: Add job.experience*/}5 YOE
+          </Typography>
+        </BoxCenter>
       </Box>
     </Box>
   );

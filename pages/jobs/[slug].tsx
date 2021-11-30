@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import ErrorPage from '@components/shared/ErrorPage';
 import { useAxios } from '../../src/hooks/useAxios';
 import { JobWithCompanyAndOwner } from '../../src/interfaces/Job';
+import { JobDetailsMainCard } from '@components/atoms/JobDetails/MainCard';
 
 interface JobPageProps {
   job: JobWithCompanyAndOwner;
@@ -18,6 +19,7 @@ const JobPage: React.FC<JobPageProps> = ({ job, notFound }) => {
     <div>
       hehe
       {JSON.stringify(job, null, 2)}
+      <JobDetailsMainCard job={job} />
     </div>
   );
 };

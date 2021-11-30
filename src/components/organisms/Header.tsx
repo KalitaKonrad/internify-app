@@ -9,7 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { HeaderDrawer } from '@components/molecules/HeaderDrawer';
 import { HeaderSignIn } from '@components/molecules/HeaderSignIn';
 import { BoxCenter } from '@components/atoms/BoxCenter';
-import { LinkButton } from '@components/atoms/headerDrawer/LinkButton';
+import { LinkButton } from '@components/atoms/HeaderDrawer/LinkButton';
 import NextLink from 'next/link';
 
 const useStyles = makeStyles((theme) => ({

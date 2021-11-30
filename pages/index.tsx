@@ -4,6 +4,7 @@ import { PaginatedData } from '../src/interfaces/PaginatedData';
 import { JobWithCompanyAndOwner } from '../src/interfaces/Job';
 import { JobOfferCard } from '@components/molecules/JobOfferCard';
 import { BoxCenter } from '@components/atoms/BoxCenter';
+import { Box } from '@material-ui/core';
 
 interface HomeProps {
   data: PaginatedData<JobWithCompanyAndOwner>;
@@ -15,10 +16,11 @@ const Home: React.FC<HomeProps> = ({ data, status }) => {
 
   return (
     <>
+      <Box mt={3} />
       {(data?.results || []).map((job) => {
         return (
-          <BoxCenter my={1}>
-            <JobOfferCard job={job} key={job.id} />
+          <BoxCenter my={1} key={job.id}>
+            <JobOfferCard job={job} />
           </BoxCenter>
         );
       })}
