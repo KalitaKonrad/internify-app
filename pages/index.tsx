@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAxios } from '../src/hooks/useAxios';
 import { PaginatedData } from '../src/interfaces/PaginatedData';
 import { JobWithCompanyAndOwner } from '../src/interfaces/Job';
 import { JobOfferCard } from '@components/molecules/JobOfferCard';
 import { BoxCenter } from '@components/atoms/BoxCenter';
 import { Box } from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
+import useSWR from 'swr';
+import { CustomSnackbar } from '@components/atoms/Snackbar';
 
 interface HomeProps {
   data: PaginatedData<JobWithCompanyAndOwner>;
@@ -12,18 +15,31 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ data, status }) => {
-  console.log({ data });
+  const totalPages = Math.ceil(data.count / 10);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const onChange = (event, page: number) => {
+    setCurrentPage(page);
+  };
+
+  const axios = useAxios();
+  const fetcher = (url) => axios.get(url).then((res) => res.data);
+
+  const { data: swrData, error } = useSWR(`jobs/?page=${currentPage}`, fetcher);
 
   return (
     <>
+      {error && <CustomSnackbar open={!!error} message={error.message} />}
       <Box mt={3} />
-      {(data?.results || []).map((job) => {
-        return (
-          <BoxCenter my={1} key={job.id}>
-            <JobOfferCard job={job} />
-          </BoxCenter>
-        );
-      })}
+      {(swrData?.data?.results || data?.results).map((job) => (
+        <BoxCenter my={1} key={job.id}>
+          <JobOfferCard job={job} />
+        </BoxCenter>
+      ))}
+
+      <BoxCenter mt={4} mb={7}>
+        <Pagination count={totalPages} color="primary" onChange={onChange} size="large" />
+      </BoxCenter>
     </>
   );
 };
@@ -35,12 +51,12 @@ export async function getStaticProps(context) {
     data: { data },
     status,
   } = await axios.get('/jobs');
-  console.log({ data });
+
   return {
     props: {
       data,
       status,
-    }, // will be passed to the page component as props
+    },
   };
 }
 
