@@ -4,6 +4,7 @@ import React from 'react';
 import { BoxCenter } from '@components/atoms/BoxCenter';
 import { Avatar, Box, Typography } from '@material-ui/core';
 import RoomIcon from '@material-ui/icons/Room';
+import { formatSalary } from '../../../utils/formatSalary';
 
 interface MainJobInfoProps {
   job: JobWithCompanyAndOwner;
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const MainJobInfo: React.FC<MainJobInfoProps> = ({ job }) => {
   const classes = useStyles();
-  const salaryText = job.salary_min && job.salary_max ? `${job.salary_min} - ${job.salary_max}` : 'Undisclosed salary';
+  const salaryText = formatSalary(job.salary_min, job.salary_max);
 
   return (
     <BoxCenter p={2} flexDirection="column">

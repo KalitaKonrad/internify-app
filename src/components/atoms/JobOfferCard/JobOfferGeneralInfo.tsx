@@ -4,6 +4,7 @@ import { BoxCenter } from '@components/atoms/BoxCenter';
 import { formatDistanceStrict, isToday } from 'date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import { JobWithCompanyAndOwner } from '../../../interfaces/Job';
+import { formatSalary } from '../../../utils/formatSalary';
 
 interface GeneralJobInfoProps {
   job: JobWithCompanyAndOwner;
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 export const JobOfferGeneralInfo: React.FC<GeneralJobInfoProps> = ({ job }) => {
   const classes = useStyles();
   const jobOfferPublishedText = formatPublishDate(new Date(job.published));
-  const salaryText = job.salary_min && job.salary_max ? `${job.salary_min} - ${job.salary_max}` : 'Undisclosed salary';
+  const salaryText = formatSalary(job.salary_min, job.salary_max);
 
   return (
     <Box display="flex" flexDirection="column" justifyContent="space-between" flexGrow={1}>
