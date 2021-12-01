@@ -28,7 +28,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  onPostJobClick: (...args: any) => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ onPostJobClick }) => {
   const classes = useStyles();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -50,7 +54,7 @@ export const Header: React.FC = () => {
             <HeaderSignIn />
           </Box>
           <Box mr={2}>
-            <LinkButton onClick={() => console.log('post a job')} color="inherit" variant="outlined">
+            <LinkButton onClick={onPostJobClick} color="inherit" variant="outlined">
               Post a Job
             </LinkButton>
           </Box>

@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import Snackbar, { SnackbarProps } from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
-export const CustomSnackbar: React.FC<SnackbarProps> = ({ open, message }) => {
+interface CustomSnackbarProps extends SnackbarProps {
+  severity: AlertProps['severity'];
+}
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+export const CustomSnackbar: React.FC<CustomSnackbarProps> = ({ open, message, severity, ...rest }) => {
   const [isOpen, setOpen] = useState(open);
 
   return (
@@ -11,9 +20,14 @@ export const CustomSnackbar: React.FC<SnackbarProps> = ({ open, message }) => {
         horizontal: 'right',
       }}
       open={isOpen}
-      autoHideDuration={6000}
-      message={message}
+      autoHideDuration={3000}
       onClose={() => setOpen(false)}
-    />
+      message={'hehe'}
+      {...rest}
+    >
+      <Alert onClose={() => setOpen(false)} severity={severity}>
+        {message}
+      </Alert>
+    </Snackbar>
   );
 };

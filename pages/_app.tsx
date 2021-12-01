@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from '../src/theme';
 import { MainLayout } from '@components/atoms/MainLayout';
+import { DialogProvider } from '../src/hooks/useDialog';
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   React.useEffect(() => {
@@ -22,9 +23,11 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <MainLayout>
-          <Component {...pageProps} />
-        </MainLayout>
+        <DialogProvider>
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout>
+        </DialogProvider>
       </ThemeProvider>
     </>
   );

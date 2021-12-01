@@ -75,7 +75,7 @@ export const SignInForm: React.FC<{ csrf: string }> = ({ csrf }) => {
       })
       .then((res) => {
         console.log({ res });
-        router.push('/');
+        // router.push('/');
       })
       .catch((e) => console.log(e));
   };

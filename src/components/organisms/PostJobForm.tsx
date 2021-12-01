@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, TextField, Typography } from '@material-ui/core';
+import { Button, Checkbox, TextField } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -20,9 +20,6 @@ export interface IPostEditOffer {
 interface PostJobForm {
   onSubmit: (data: IPostEditOffer) => void;
   handleClose: () => void;
-  initialValues: IPostEditOffer;
-  isEditing: boolean;
-  handleDelete?: (...args: any) => void;
 }
 
 const useStyles = makeStyles((propTheme: Theme) => ({
@@ -71,7 +68,6 @@ const useStyles = makeStyles((propTheme: Theme) => ({
     justifyContent: 'space-between',
   },
   typography: {
-    color: propTheme.palette.primary.main,
     display: 'flex',
     alignItems: 'center',
   },
@@ -93,40 +89,8 @@ const schema = yup.object().shape({
   title: yup.string().required(),
   description: yup.string().required(),
   experience: yup.number().optional().positive(),
-  salary_min: yup
-    .number()
-    .optional()
-    .nullable()
-    .test({
-      name: 'Min salary < max salary',
-      message: 'Min salary has to be less than max salary',
-      test() {
-        const { parent } = this;
-
-        if (!parent.salary_max || !parent.salary_min) {
-          return true;
-        }
-
-        return parent.salary_max > parent.salary_min;
-      },
-    }),
-  salary_max: yup
-    .number()
-    .optional()
-    .nullable()
-    .test({
-      name: 'Max salary > min salary',
-      message: 'Max salary has to be bigger than min salary',
-      test() {
-        const { parent } = this;
-
-        if (!parent.salary_max || !parent.salary_min) {
-          return true;
-        }
-
-        return parent.salary_max > parent.salary_min;
-      },
-    }),
+  salary_min: yup.number().optional(),
+  salary_max: yup.number().optional(),
   is_remote: yup.boolean().optional(),
 });
 
@@ -142,143 +106,138 @@ export const PostJobForm: React.FC<PostJobForm> = ({ onSubmit, handleClose, isEd
   });
 
   return (
-    <>
-      <Typography variant="h6" className={classes.title}>
-        {isEditing ? 'Edit job offer' : 'Post job offer'}
-      </Typography>
-      <form className={classes.container}>
-        <div className={classes.fieldContainer}>
-          <Controller
-            control={control}
-            name="title"
-            render={({ field: { onChange, value } }) => (
-              <TextField
-                id="title"
-                label="Title"
-                variant="outlined"
-                className={classes.fullWidth}
-                required
-                error={errors.title}
-                helperText={errors.title && 'Title is required'}
-                value={value}
-                onChange={onChange}
-              />
-            )}
-          />
-        </div>
-        <div className={classes.fieldContainer}>
-          <Controller
-            control={control}
-            name="description"
-            render={({ field: { onChange, value } }) => (
-              <TextField
-                id="description"
-                className={classes.fullWidth}
-                multiline
-                minRows={10}
-                required
-                label="Description"
-                variant="outlined"
-                value={value}
-                onChange={onChange}
-                error={errors.description}
-                helperText={errors.description && 'Description is required'}
-              />
-            )}
-          />
-        </div>
-        <BoxCenter>
-          <div className={classes.fieldContainer}>
-            <Controller
-              control={control}
-              name="salary_min"
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  id="salary_min"
-                  className={classes.fullWidth}
-                  label="Minimum Salary"
-                  variant="outlined"
-                  value={value}
-                  onChange={onChange}
-                  error={errors.salary_min}
-                  helperText={errors.salary_min && 'Minimum salary must be less than max salary'}
-                />
-              )}
+    <form className={classes.container}>
+      <div className={classes.fieldContainer}>
+        <Controller
+          control={control}
+          name="title"
+          render={({ field: { onChange, value } }) => (
+            <TextField
+              id="title"
+              label="Title"
+              variant="outlined"
+              className={classes.fullWidth}
+              required
+              error={errors.title}
+              helperText={errors.title && 'Title is required'}
+              value={value}
+              onChange={onChange}
             />
-          </div>
-          <div className={classes.fieldContainer}>
-            <Controller
-              control={control}
-              name="salary_max"
-              render={({ field: { onChange, value } }) => (
-                <TextField
-                  id="salary_max"
-                  className={classes.fullWidth}
-                  label="Maximum Salary"
-                  variant="outlined"
-                  value={value}
-                  onChange={onChange}
-                  error={errors.salary_max}
-                  helperText={errors.salary_max && 'Maximum salary must be greater than min salary'}
-                />
-              )}
+          )}
+        />
+      </div>
+      <div className={classes.fieldContainer}>
+        <Controller
+          control={control}
+          name="description"
+          render={({ field: { onChange, value } }) => (
+            <TextField
+              id="description"
+              className={classes.fullWidth}
+              multiline
+              minRows={10}
+              required
+              label="Description"
+              variant="outlined"
+              value={value}
+              onChange={onChange}
+              error={errors.description}
+              helperText={errors.description && 'Description is required'}
             />
-          </div>
-        </BoxCenter>
+          )}
+        />
+      </div>
+      <BoxCenter>
         <div className={classes.fieldContainer}>
           <Controller
             control={control}
-            name="experience"
+            name="salary_min"
             render={({ field: { onChange, value } }) => (
               <TextField
-                id="experience"
-                label="Experience (years)"
+                id="salary_min"
+                className={classes.fullWidth}
+                label="Minimum Salary"
                 variant="outlined"
                 value={value}
                 onChange={onChange}
-                className={classes.fullWidth}
+                error={errors.salary_min}
+                helperText={errors.salary_min && 'Minimum salary must be less than max salary'}
               />
             )}
           />
         </div>
-        <div className={classes.checkboxContainer}>
+        <div className={classes.fieldContainer}>
           <Controller
             control={control}
-            name="is_remote"
+            name="salary_max"
             render={({ field: { onChange, value } }) => (
-              <div className={classes.checkboxComponentWrapper}>
-                <Checkbox onChange={(e) => onChange(e.target.checked)} value={value} />
-                <div className={classes.typography}>Remote work</div>
+              <TextField
+                id="salary_max"
+                className={classes.fullWidth}
+                label="Maximum Salary"
+                variant="outlined"
+                value={value}
+                onChange={onChange}
+                error={errors.salary_max}
+                helperText={errors.salary_max && 'Maximum salary must be greater than min salary'}
+              />
+            )}
+          />
+        </div>
+      </BoxCenter>
+      <div className={classes.fieldContainer}>
+        <Controller
+          control={control}
+          name="experience"
+          render={({ field: { onChange, value } }) => (
+            <TextField
+              id="experience"
+              label="Experience (years)"
+              variant="outlined"
+              value={value}
+              onChange={onChange}
+              className={classes.fullWidth}
+            />
+          )}
+        />
+      </div>
+      <div className={classes.checkboxContainer}>
+        <Controller
+          control={control}
+          name="is_remote"
+          render={({ field: { onChange, value } }) => (
+            <div className={classes.checkboxComponentWrapper}>
+              <Checkbox onChange={(e) => onChange(e.target.checked)} value={value} />
+              <div className={classes.typography}>Remote work</div>
+            </div>
+          )}
+        />
+      </div>
+      <div className={classes.submissionContainer}>
+        <div className={classes.submissionBox}>
+          {isEditing && handleDelete && (
+            <>
+              <div className={classes.leftButtonWrapper}>
+                <Button onClick={() => console.log('delete')} color="primary">
+                  Delete offer
+                </Button>
               </div>
-            )}
-          />
+            </>
+          )}
         </div>
-        <div className={classes.submissionContainer}>
-          <div className={classes.submissionBox}>
-            {isEditing && handleDelete && (
-              <>
-                <div className={classes.leftButtonWrapper}>
-                  <Button onClick={() => console.log('delete')} color="primary">
-                    Delete offer
-                  </Button>
-                </div>
-              </>
-            )}
+        <div className={clsx(classes.submissionBox, classes.editActionsContainer)}>
+          <div>
+            <DangerButton onClick={handleClose} variant="outlined">
+              Cancel
+            </DangerButton>
           </div>
-          <div className={clsx(classes.submissionBox, classes.editActionsContainer)}>
-            <div>
-              <DangerButton onClick={handleClose} variant="outlined">
-                Cancel
-              </DangerButton>
-            </div>
-            <div>
-              <Button type="submit" onClick={handleSubmit(onSubmit)} color="primary" variant="contained">
-                Post job
-              </Button>
-            </div>
+          <div>
+            <Button type="submit" onClick={handleSubmit(onSubmit)} color="primary" variant="contained">
+              Post job
+            </Button>
           </div>
         </div>
-      </form>
-    </>
+      </div>
+    </form>
   );
 };
