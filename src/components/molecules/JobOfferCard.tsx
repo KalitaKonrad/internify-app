@@ -6,7 +6,6 @@ import { JobOfferAvatar } from '@components/atoms/JobOfferCard/JobOfferAvatar';
 import { JobOfferCompanyInfo } from '@components/atoms/JobOfferCard/JobOfferCompanyInfo';
 import { JobOfferGeneralInfo } from '@components/atoms/JobOfferCard/JobOfferGeneralInfo';
 import { makeStyles } from '@material-ui/core/styles';
-import NextLink from 'next/link';
 import { LinkWrapper } from '@components/atoms/LinkWrapper';
 
 interface OfferCardProps {

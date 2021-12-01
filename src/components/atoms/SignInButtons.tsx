@@ -4,6 +4,8 @@ import { Box } from '@material-ui/core';
 import BusinessIcon from '@material-ui/icons/Business';
 import FaceIcon from '@material-ui/icons/Face';
 import { ButtonIcon } from '@components/atoms/ButtonIcon';
+import { useDialog } from '../../hooks/useDialog';
+import { SignInForm } from '@components/organisms/SignInForm';
 
 const useStyles = makeStyles((theme) => ({
   employeeButtonWrapper: {
@@ -22,15 +24,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SignInButtons: React.FC = () => {
-  const classes = useStyles();
+interface SignInButtonsProps {
+  setDrawerOpen: (value: boolean) => void;
+}
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
+export const SignInButtons: React.FC<SignInButtonsProps> = ({ setDrawerOpen }) => {
+  const classes = useStyles();
+  const { setDialogChildren, setDialogOpen, setDialogTitle } = useDialog();
+
   const [isAuth, setIsAuth] = useState(false);
 
   return (
     <Box display="flex" flexDirection="column">
-      <ButtonIcon onClick={() => console.log('employee')} buttonText="Sign in as Developer">
+      <ButtonIcon
+        onClick={() => {
+          setDialogTitle('Sign up');
+          setDialogChildren(<SignInForm />);
+          setDialogOpen(true);
+          setDrawerOpen(false);
+        }}
+        buttonText="Sign in as Developer"
+      >
         <FaceIcon fontSize="large" />
       </ButtonIcon>
       <Box my={1} /> {/* divider */}

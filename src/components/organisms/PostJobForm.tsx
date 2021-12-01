@@ -94,7 +94,7 @@ const schema = yup.object().shape({
   is_remote: yup.boolean().optional(),
 });
 
-export const PostJobForm: React.FC<PostJobForm> = ({ onSubmit, handleClose, isEditing, handleDelete }) => {
+export const PostJobForm: React.FC<PostJobForm> = ({ onSubmit, handleClose }) => {
   const classes = useStyles();
   const {
     control,
@@ -214,17 +214,6 @@ export const PostJobForm: React.FC<PostJobForm> = ({ onSubmit, handleClose, isEd
         />
       </div>
       <div className={classes.submissionContainer}>
-        <div className={classes.submissionBox}>
-          {isEditing && handleDelete && (
-            <>
-              <div className={classes.leftButtonWrapper}>
-                <Button onClick={() => console.log('delete')} color="primary">
-                  Delete offer
-                </Button>
-              </div>
-            </>
-          )}
-        </div>
         <div className={clsx(classes.submissionBox, classes.editActionsContainer)}>
           <div>
             <DangerButton onClick={handleClose} variant="outlined">

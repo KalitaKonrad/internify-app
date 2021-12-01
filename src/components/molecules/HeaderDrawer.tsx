@@ -57,7 +57,7 @@ export const HeaderDrawer: React.FC<HeaderDrawerProps> = ({ drawerOpen, setDrawe
           {isAuth && <DrawerProfileInfo username={'Konrad'} email={'hehe'} photo={'hehe'} />}
           {!isAuth && (
             <DrawerLineItem>
-              <SignInButtons />
+              <SignInButtons setDrawerOpen={setDrawerOpen} />
             </DrawerLineItem>
           )}
         </div>
