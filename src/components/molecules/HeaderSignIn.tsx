@@ -12,6 +12,8 @@ import BusinessIcon from '@material-ui/icons/Business';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSession } from '../../hooks/useSession';
+import { SignInButtons } from '@components/atoms/SignInButtons';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -27,6 +29,9 @@ export const HeaderSignIn: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const classes = useStyles();
+  const { session } = useSession();
+
+  const isAuth = !!session?.username && session?.email;
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -57,7 +62,7 @@ export const HeaderSignIn: React.FC = () => {
     prevOpen.current = open;
   }, [open]);
 
-  return (
+  return !isAuth ? (
     <>
       <Button
         ref={anchorRef}
@@ -77,26 +82,7 @@ export const HeaderSignIn: React.FC = () => {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                  <MenuItem onClick={handleClose}>
-                    {/*TODO: separate paths for login in as employee vs company?*/}
-                    <ButtonIcon
-                      href="/auth/sign-in/"
-                      onClick={() => console.log('employee')}
-                      buttonText="Sign in as Developer"
-                    >
-                      <FaceIcon fontSize="large" />
-                    </ButtonIcon>
-                  </MenuItem>
-                  <MenuItem onClick={handleClose}>
-                    <ButtonIcon
-                      href="/auth/sign-in/"
-                      onClick={() => console.log('business')}
-                      buttonText="Sign in as Company"
-                      type="secondary"
-                    >
-                      <BusinessIcon fontSize="large" />
-                    </ButtonIcon>
-                  </MenuItem>
+                  <SignInButtons noBorder />
                 </MenuList>
               </ClickAwayListener>
             </Paper>
@@ -104,5 +90,5 @@ export const HeaderSignIn: React.FC = () => {
         )}
       </Popper>
     </>
-  );
+  ) : null;
 };

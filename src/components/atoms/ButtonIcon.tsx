@@ -9,6 +9,7 @@ interface StyledButtonProps {
   type?: 'primary' | 'secondary';
   buttonText: string;
   href?: string;
+  buttonClassName?: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +29,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ButtonIcon: React.FC<StyledButtonProps> = ({ children, href, onClick, type = 'primary', buttonText }) => {
+export const ButtonIcon: React.FC<StyledButtonProps> = ({
+  children,
+  buttonClassName,
+  href,
+  onClick,
+  type = 'primary',
+  buttonText,
+}) => {
   const classes = useStyles();
   const childElements = Children.map(children, (child) => {
     if (isValidElement(child)) {
@@ -40,7 +48,7 @@ export const ButtonIcon: React.FC<StyledButtonProps> = ({ children, href, onClic
 
   return (
     <LinkWrapper href={href}>
-      <Button onClick={onClick} variant="outlined">
+      <Button onClick={onClick} variant="outlined" className={buttonClassName}>
         <Box display="flex" flexGrow={1} justifyContent="center" p={1}>
           <Box
             display="flex"
