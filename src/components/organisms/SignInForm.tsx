@@ -13,6 +13,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useRouter } from 'next/router';
 import { useAxios } from '../../hooks/useAxios';
+import { useSession } from '../../hooks/useSession';
+import { useDialog } from '../../hooks/useDialog';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,14 +35,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SignInForm: React.FC<{ csrf: string }> = ({ csrf }) => {
+export const SignInForm: React.FC = () => {
   const router = useRouter();
   const initialFormData = Object.freeze({
     email: '',
     password: '',
   });
 
-  const axios = useAxios();
+  const { login } = useSession();
+  const { setDialogOpen } = useDialog();
 
   const [formData, setFormData] = useState(initialFormData);
 
@@ -51,32 +54,34 @@ export const SignInForm: React.FC<{ csrf: string }> = ({ csrf }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
 
-    fetch(`http://localhost:8000/api/account/login/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrf,
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        email: formData.email,
-        password: formData.password,
-      }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(res.statusText);
-        }
-      })
-      .then((res) => {
-        console.log({ res });
-        // router.push('/');
-      })
-      .catch((e) => console.log(e));
+    await login(formData.email, formData.password);
+    setDialogOpen(false);
+    // fetch(`http://localhost:8000/api/account/login/`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'X-CSRFToken': csrf,
+    //   },
+    //   credentials: 'include',
+    //   body: JSON.stringify({
+    //     email: formData.email,
+    //     password: formData.password,
+    //   }),
+    // })
+    //   .then((res) => {
+    //     if (!res.ok) {
+    //       throw new Error(res.statusText);
+    //     }
+    //   })
+    //   .then((res) => {
+    //     console.log({ res });
+    //     // router.push('/');
+    //   })
+    //   .catch((e) => console.log(e));
   };
 
   const classes = useStyles();

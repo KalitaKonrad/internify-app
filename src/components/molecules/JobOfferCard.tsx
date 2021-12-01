@@ -12,9 +12,17 @@ interface OfferCardProps {
   job: JobWithCompanyAndOwner;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   paper: {
     maxWidth: 1000,
+    width: '100%',
+  },
+  offerCard: {
+    transition: 'all 0.3s',
+    '&:hover': {
+      paddingTop: '0.5rem',
+      paddingBottom: '0.5rem',
+    },
   },
 }));
 
@@ -22,8 +30,8 @@ export const JobOfferCard: React.FC<OfferCardProps> = ({ job }) => {
   const classes = useStyles();
 
   return (
-    <LinkWrapper href={`/jobs/${job.slug}`}>
-      <BoxCenter>
+    <LinkWrapper href={`/jobs/${job.slug}`} className={classes.offerCard}>
+      <BoxCenter minWidth={850}>
         <Paper elevation={2} className={classes.paper}>
           <BoxCenter mx={4} my={3}>
             <JobOfferAvatar job={job} />

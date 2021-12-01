@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const MainJobInfo: React.FC<MainJobInfoProps> = ({ job }) => {
   const classes = useStyles();
+  const salaryText = job.salary_min && job.salary_max ? `${job.salary_min} - ${job.salary_max}` : 'Undisclosed salary';
 
   return (
     <BoxCenter p={2} flexDirection="column">
@@ -44,16 +45,12 @@ export const MainJobInfo: React.FC<MainJobInfoProps> = ({ job }) => {
               <RoomIcon color="action" />
             </BoxCenter>
             <BoxCenter>
-              <Typography variant="body1">
-                {/*TODO: add location*/}
-                location
-              </Typography>
+              <Typography variant="body1">{job.company.headquarters}</Typography>
             </BoxCenter>
           </Box>
           <Box display="flex">
-            {/*TODO: add salary*/}
             <Typography variant="body1" className={classes.salary}>
-              10k - 15k
+              {salaryText}
             </Typography>
           </Box>
         </Box>

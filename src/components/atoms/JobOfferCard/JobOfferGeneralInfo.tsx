@@ -47,15 +47,15 @@ const useStyles = makeStyles((theme) => ({
 export const JobOfferGeneralInfo: React.FC<GeneralJobInfoProps> = ({ job }) => {
   const classes = useStyles();
   const jobOfferPublishedText = formatPublishDate(new Date(job.published));
+  const salaryText = job.salary_min && job.salary_max ? `${job.salary_min} - ${job.salary_max}` : 'Undisclosed salary';
 
   return (
-    <Box display="flex" flexDirection="column" justifyContent="space-between">
+    <Box display="flex" flexDirection="column" justifyContent="space-between" flexGrow={1}>
       {/*TODO: add ... if too long*/}
-      <Box display="flex">
+      <Box display="flex" justifyContent="flex-end">
         <BoxCenter mr={3}>
           <Typography variant="body1" className={classes.salary}>
-            {/*TODO: add salary*/}
-            10000 - 15000 PLN
+            {salaryText}
           </Typography>
         </BoxCenter>
         <BoxCenter
@@ -68,7 +68,7 @@ export const JobOfferGeneralInfo: React.FC<GeneralJobInfoProps> = ({ job }) => {
       <Box display="flex" alignItems="center" justifyContent="flex-end" mt={2}>
         <BoxCenter>
           <Typography variant="body1" color="textPrimary">
-            {/*TODO: Add job.experience*/}5 YOE
+            {job.experience} YOE
           </Typography>
         </BoxCenter>
       </Box>

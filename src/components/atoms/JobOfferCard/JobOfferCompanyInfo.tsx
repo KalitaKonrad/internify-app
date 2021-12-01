@@ -14,6 +14,12 @@ const useStyles = makeStyles((theme) => ({
   companyInfo: {
     color: theme.palette.grey['700'],
   },
+  remoteWork: {
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 25,
+    color: theme.palette.background.paper,
+    padding: '0 0.5rem',
+  },
 }));
 
 export const JobOfferCompanyInfo: React.FC<JobAndCompanyInfoProps> = ({ job }) => {
@@ -39,11 +45,15 @@ export const JobOfferCompanyInfo: React.FC<JobAndCompanyInfoProps> = ({ job }) =
             <RoomIcon fontSize="small" className={classes.companyInfo} />
           </BoxCenter>
           <Typography variant="body1" color="textPrimary" className={classes.companyInfo}>
-            Warszawa
-            {/*TODO: add headquartes to model*/}
-            {/*{job.company.headquarters}*/}
+            {job.company.headquarters}
           </Typography>
-          {/*  TODO: add isRemote? */}
+          {job.is_remote && (
+            <BoxCenter ml={1}>
+              <Typography variant="body1" color="textPrimary" className={classes.remoteWork}>
+                Remote work
+              </Typography>
+            </BoxCenter>
+          )}
         </BoxCenter>
       </Box>
     </Box>

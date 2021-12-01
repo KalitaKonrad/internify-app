@@ -6,6 +6,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { theme } from '../src/theme';
 import { MainLayout } from '@components/atoms/MainLayout';
 import { DialogProvider } from '../src/hooks/useDialog';
+import { SessionProvider } from '../src/hooks/useSession';
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   React.useEffect(() => {
@@ -23,11 +24,13 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <DialogProvider>
-          <MainLayout>
-            <Component {...pageProps} />
-          </MainLayout>
-        </DialogProvider>
+        <SessionProvider>
+          <DialogProvider>
+            <MainLayout>
+              <Component {...pageProps} />
+            </MainLayout>
+          </DialogProvider>
+        </SessionProvider>
       </ThemeProvider>
     </>
   );

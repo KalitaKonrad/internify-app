@@ -6,6 +6,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { SignInButtons } from '@components/atoms/SignInButtons';
 import { DrawerProfileInfo } from '@components/atoms/HeaderDrawer/DrawerProfileInfo';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSession } from '../../hooks/useSession';
 
 interface HeaderDrawerProps {
   drawerOpen: boolean;
@@ -33,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
 
 export const HeaderDrawer: React.FC<HeaderDrawerProps> = ({ drawerOpen, setDrawerOpen }) => {
   const classes = useStyles();
-  const [isAuth, setIsAuth] = useState(false); // TODO: swap for hook
+  const { session, logout } = useSession();
+  const isAuth = !!session?.username && session?.email;
 
   return (
     <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)} classes={{ paper: classes.paper }}>
@@ -64,12 +66,7 @@ export const HeaderDrawer: React.FC<HeaderDrawerProps> = ({ drawerOpen, setDrawe
 
         {isAuth && (
           <DrawerLineItem>
-            <Button
-              color="primary"
-              variant="outlined"
-              onClick={() => console.log('logout')}
-              className={classes.logoutButton}
-            >
+            <Button color="primary" variant="contained" onClick={logout} className={classes.logoutButton}>
               Logout
             </Button>
           </DrawerLineItem>

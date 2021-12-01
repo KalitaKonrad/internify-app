@@ -63,12 +63,14 @@ export const DescriptionInfo: React.FC<DescriptionInfoProps> = ({ job }) => {
         <DescriptionCard title={job.company.name} subtitle="Company name" icon={<BusinessIcon color="secondary" />} />
       </BoxCenter>
       <BoxCenter mx={1}>
-        {/*TODO: add job company size*/}
-        <DescriptionCard title={50} subtitle="Company size" icon={<PeopleIcon color="secondary" />} />
+        <DescriptionCard title={job.company.size} subtitle="Company size" icon={<PeopleIcon color="secondary" />} />
       </BoxCenter>
       <BoxCenter mx={1}>
-        {/*TODO: add job.experience */}
-        <DescriptionCard title={`${5} Years`} subtitle="Exp. lvl" icon={<ShowChartIcon color="secondary" />} />
+        <DescriptionCard
+          title={`${job.experience} Years`}
+          subtitle="Exp. lvl"
+          icon={<ShowChartIcon color="secondary" />}
+        />
       </BoxCenter>
       <BoxCenter mx={1}>
         <DescriptionCard

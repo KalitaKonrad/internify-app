@@ -13,7 +13,7 @@ export interface IPostEditOffer {
   description: string;
   salary_min?: number;
   salary_max?: number;
-  experience?: number;
+  experience: number;
   is_remote?: boolean;
 }
 
@@ -88,7 +88,7 @@ const useStyles = makeStyles((propTheme: Theme) => ({
 const schema = yup.object().shape({
   title: yup.string().required(),
   description: yup.string().required(),
-  experience: yup.number().optional().positive(),
+  experience: yup.number().required().positive(),
   salary_min: yup.number().optional(),
   salary_max: yup.number().optional(),
   is_remote: yup.boolean().optional(),
@@ -196,6 +196,9 @@ export const PostJobForm: React.FC<PostJobForm> = ({ onSubmit, handleClose }) =>
               variant="outlined"
               value={value}
               onChange={onChange}
+              required
+              error={errors.experience}
+              helperText={errors.experience && 'Experience is required'}
               className={classes.fullWidth}
             />
           )}

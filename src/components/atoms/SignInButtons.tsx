@@ -6,6 +6,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import { ButtonIcon } from '@components/atoms/ButtonIcon';
 import { useDialog } from '../../hooks/useDialog';
 import { SignInForm } from '@components/organisms/SignInForm';
+import { useSession } from '../../hooks/useSession';
 
 const useStyles = makeStyles((theme) => ({
   employeeButtonWrapper: {
