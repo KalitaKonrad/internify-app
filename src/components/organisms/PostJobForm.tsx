@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import clsx from 'clsx';
 import { BoxCenter } from '@components/atoms/BoxCenter';
-import { DangerButton } from '@components/atoms/RedButton';
+import { DangerButton } from '@components/atoms/DangerButton';
 
 export interface IPostEditOffer {
   title: string;

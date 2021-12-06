@@ -71,8 +71,31 @@ const useSessionState = (): Session => {
 
       return session;
     },
-    [mutate],
+    [axios, session],
   );
+  //
+  // const resetPassword = useCallback(
+  //   async (email) => {
+  //     try {
+  //       const {
+  //         data: {
+  //           data: { tokens },
+  //         },
+  //       } = await axios.post('auth/request-reset-email/', { email, password });
+  //
+  //       const prepareTokens = tokens.replaceAll('"', '').replaceAll("'", '"');
+  //
+  //       const { access, refresh }: { access: string; refresh: string } = JSON.parse(prepareTokens);
+  //       localStorage.setItem('access', access);
+  //       localStorage.setItem('refresh', refresh);
+  //     } catch (e) {
+  //       console.error(e);
+  //     }
+  //
+  //     return session;
+  //   },
+  //   [axios, session],
+  // );
 
   const logout: LogoutUser = useCallback(async () => {
     try {

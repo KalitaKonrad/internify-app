@@ -9,20 +9,15 @@ interface CompanyPageProps {
   notFound?: boolean;
 }
 
-const JobPage: React.FC<CompanyPageProps> = ({ company, notFound }) => {
+const Company: React.FC<CompanyPageProps> = ({ company, notFound }) => {
   if (!company || notFound) {
     return <ErrorPage />;
   }
 
-  return (
-    <div>
-      hehe
-      {JSON.stringify(company, null, 2)}
-    </div>
-  );
+  return <div>{JSON.stringify(company, null, 2)}</div>;
 };
 
-export default JobPage;
+export default Company;
 
 export const getStaticProps: GetStaticProps<CompanyPageProps> = async ({ params }) => {
   if (!params?.slug || Array.isArray(params?.slug)) {

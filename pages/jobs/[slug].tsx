@@ -4,6 +4,7 @@ import ErrorPage from '@components/shared/ErrorPage';
 import { useAxios } from '../../src/hooks/useAxios';
 import { JobWithCompanyAndOwner } from '../../src/interfaces/Job';
 import { JobDetailsMainCard } from '@components/atoms/JobDetails/MainCard';
+import { BoxCenter } from '@components/atoms/BoxCenter';
 
 interface JobPageProps {
   job: JobWithCompanyAndOwner;
@@ -16,11 +17,9 @@ const JobPage: React.FC<JobPageProps> = ({ job, notFound }) => {
   }
 
   return (
-    <div>
-      hehe
-      {JSON.stringify(job, null, 2)}
+    <BoxCenter mt={12}>
       <JobDetailsMainCard job={job} />
-    </div>
+    </BoxCenter>
   );
 };
 
