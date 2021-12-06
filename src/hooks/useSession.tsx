@@ -111,7 +111,6 @@ const useSessionState = (): Session => {
     return session;
   }, [mutate]);
 
-  console.log({ session });
   // We want to have a referential equality between returned objects
   return useMemo(() => ({ login, isLoading: !session, session, logout }), [login, session, logout]);
 };

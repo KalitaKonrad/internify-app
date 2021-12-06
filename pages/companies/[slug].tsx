@@ -3,6 +3,7 @@ import { useAxios } from '../../src/hooks/useAxios';
 import { CompanyWithOwner } from '../../src/interfaces/Job';
 import React from 'react';
 import ErrorPage from '@components/shared/ErrorPage';
+import { CompanyProfile } from '@components/organisms/CompanyProfile';
 
 interface CompanyPageProps {
   company: CompanyWithOwner;
@@ -14,7 +15,11 @@ const Company: React.FC<CompanyPageProps> = ({ company, notFound }) => {
     return <ErrorPage />;
   }
 
-  return <div>{JSON.stringify(company, null, 2)}</div>;
+  return (
+    <>
+      <CompanyProfile company={company} />
+    </>
+  );
 };
 
 export default Company;

@@ -1,36 +1,48 @@
-import React, { useCallback } from 'react';
+import React, { useState } from 'react';
 import { useSession } from '../../hooks/useSession';
 import { BoxCenter } from '@components/atoms/BoxCenter';
 import { JobOfferCard } from '@components/molecules/JobOfferCard';
 import useSWR from 'swr';
 import { useAxios } from '../../hooks/useAxios';
-import { Box, Typography } from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
+import { CompanyWithOwner } from '../../interfaces/Job';
 
-export const CompanyOffers: React.FC = () => {
+interface CompanyOffersProps {
+  company: CompanyWithOwner;
+  isEditing?: boolean;
+}
+
+export const CompanyOffers: React.FC<CompanyOffersProps> = ({ company, isEditing }) => {
   const { session } = useSession();
+
   const axios = useAxios();
+  const fetcher = (url) => axios.get(url).then((res) => res.data);
 
-  const getCompanies = useCallback((url) => axios.get(url).then((res) => res.data), [axios]);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const {
-    data: { data = {} } = {},
-    error,
-    mutate,
-  } = useSWR('jobs/', getCompanies, {
-    revalidateOnFocus: false,
-    revalidateIfStale: false,
-  });
+  const { data: swrData, error } = useSWR(`companies/${company?.slug}/offers/?page=${currentPage}`, fetcher);
 
-  const Offers = (
-    <Box>
-      <Typography variant="h5">My offers</Typography>
-      {data?.results?.map((job) => (
+  const totalPages = Math.ceil(swrData?.data?.count / 10 ?? 0);
+
+  const onChange = (event, page: number) => {
+    setCurrentPage(page);
+  };
+
+  if (!company) {
+    return null;
+  }
+
+  return (
+    <>
+      {(swrData?.data?.results || []).map((job) => (
         <BoxCenter my={1} key={job.id}>
-          <JobOfferCard job={job} isOwner={true} />
+          <JobOfferCard job={job} isOwner={isEditing} />
         </BoxCenter>
       ))}
-    </Box>
-  );
 
-  return <div>{Offers || <div>none</div>}</div>;
+      <BoxCenter mt={4} mb={7}>
+        <Pagination count={totalPages} color="primary" onChange={onChange} size="large" />
+      </BoxCenter>
+    </>
+  );
 };

@@ -1,7 +1,7 @@
 import { AxiosAuthRefreshRequestConfig } from 'axios-auth-refresh';
 
 import axios from './axios';
-import { deleteToken, setToken } from './tokenUtils';
+import { deleteRefreshToken, deleteToken, setToken } from './tokenUtils';
 
 interface RefreshTokenResponse {
   refresh: string;
@@ -19,7 +19,7 @@ export const refreshTokenInterceptor = async (failedRequest: any) => {
   try {
     const refreshToken = localStorage.getItem('refresh');
 
-    const response = await axios.post<RefreshTokenResponse>(
+    const { data: data = {} } = await axios.post<RefreshTokenResponse>(
       '/auth/token/refresh/',
       {
         refresh: refreshToken,
@@ -28,14 +28,16 @@ export const refreshTokenInterceptor = async (failedRequest: any) => {
         skipAuthRefresh: true,
       } as AxiosAuthRefreshRequestConfig,
     );
-    const { refresh, access } = response.data;
-    console.log(response.data);
-    await setToken(access);
 
-    failedRequest.response.config.headers['Authorization'] = `Bearer ${access}`;
+    // @ts-ignore
+    await setToken((data?.access || '') as string);
+
+    // @ts-ignore
+    failedRequest.response.config.headers['Authorization'] = `Bearer ${data?.access as string}`;
     return Promise.resolve();
   } catch (error) {
     await deleteToken();
+    await deleteRefreshToken();
     return Promise.reject(error);
   }
 };

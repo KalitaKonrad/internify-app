@@ -1,8 +1,4 @@
-import { Avatar, Paper } from '@material-ui/core';
 import { BoxCenter } from '@components/atoms/BoxCenter';
-import { JobOfferAvatar } from '@components/atoms/JobOfferCard/JobOfferAvatar';
-import { JobOfferCompanyInfo } from '@components/atoms/JobOfferCard/JobOfferCompanyInfo';
-import { JobOfferGeneralInfo } from '@components/atoms/JobOfferCard/JobOfferGeneralInfo';
 import React from 'react';
 import { CompanyWithOwner } from '../../../interfaces/Job';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,6 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { useRouter } from 'next/router';
 
 interface CompanyCardProps {
   company: CompanyWithOwner;
@@ -20,7 +17,11 @@ interface CompanyCardProps {
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    width: '100%',
+    minHeight: 250,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   media: {
     height: 140,
@@ -29,10 +30,11 @@ const useStyles = makeStyles({
 
 const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
   const classes = useStyles();
+  const router = useRouter();
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea onClick={() => router.push(`companies/${company.slug}`)}>
         {/*@ts-ignore*/}
         {company?.photo ? (
           <CardMedia
@@ -49,14 +51,14 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
             {company.name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {company.description?.length > 60 ? `${company.description.substring(0, 60)}...` : company.description}
+            {company.description?.length > 100 ? `${company.description.substring(0, 100)}...` : company.description}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
         <BoxCenter flexGrow={1} justifyContent="flex-end">
-          <Button color="primary" variant="contained">
-            Learn More
+          <Button color="primary" variant="contained" onClick={() => router.push(`companies/${company.slug}`)}>
+            Check offers
           </Button>
         </BoxCenter>
       </CardActions>

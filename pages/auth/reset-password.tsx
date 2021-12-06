@@ -1,10 +1,8 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
 import ErrorPage from '@components/shared/ErrorPage';
-import { JobDetailsMainCard } from '@components/atoms/JobDetails/MainCard';
 import { BoxCenter } from '@components/atoms/BoxCenter';
 import { Typography } from '@material-ui/core';
-import { ForgotPasswordForm } from '@components/organisms/ForgotPasswordForm';
 import { NewPasswordForm } from '@components/organisms/NewPasswordForm';
 
 interface ResetPasswordPageProps {

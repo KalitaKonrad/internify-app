@@ -58,7 +58,6 @@ export const SignInForm: React.FC<SignInFormProps> = ({ setDrawerOpen }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
 
     await login(formData.email, formData.password);
     setDialogOpen(false);
@@ -118,7 +117,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({ setDrawerOpen }) => {
                 // href="/auth/forgot-password/"
                 variant="body2"
                 style={{ cursor: 'pointer' }}
-                component="div"
+                // component="div"
                 onClick={() => {
                   setDialogOpen(false);
                   router.push('/auth/forgot-password/');
@@ -128,9 +127,16 @@ export const SignInForm: React.FC<SignInFormProps> = ({ setDrawerOpen }) => {
               </Link>
             </Grid>
             <Grid item>
-              <NextLink href="#" variant="body2">
+              <Link
+                href="#"
+                variant="body2"
+                onClick={() => {
+                  setDialogOpen(false);
+                  router.push('/auth/forgot-password/');
+                }}
+              >
                 {"Don't have an account? Sign Up"}
-              </NextLink>
+              </Link>
             </Grid>
           </Grid>
         </form>
