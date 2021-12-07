@@ -20,7 +20,7 @@ export interface IPostEditOffer {
 }
 
 interface JobFormProps {
-  onSubmit: (data: IPostEditOffer) => void;
+  onSubmit: (data: IPostEditOffer, e: any) => void;
   handleClose: () => void;
   isEditing?: boolean;
   job?: Job | JobWithCompanyAndOwner;

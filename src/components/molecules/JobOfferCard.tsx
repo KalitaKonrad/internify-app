@@ -12,6 +12,7 @@ import { useAxios } from '../../hooks/useAxios';
 import { useDialog } from '../../hooks/useDialog';
 import { CompanyForm } from '@components/organisms/CompanyForm';
 import { JobForm } from '@components/organisms/JobForm';
+import { useSWRConfig } from 'swr';
 
 interface OfferCardProps {
   job: JobWithCompanyAndOwner;
@@ -38,15 +39,17 @@ export const JobOfferCard: React.FC<OfferCardProps> = ({ job, isOwner }) => {
   const axios = useAxios();
   const { setDialogChildren, setDialogTitle, setDialogOpen } = useDialog();
 
+  const { mutate } = useSWRConfig();
+
   const onDelete = async (e) => {
     e.stopPropagation();
 
     try {
-      await axios.delete('jobs/', {
-        data: {
-          slug: job.slug,
-        },
-      });
+      e.stopPropagation();
+
+      await axios.delete(`jobs/${job.slug}/`);
+      mutate(`companies/${job?.company?.slug}/offers/?page=1`);
+      setDialogOpen(false);
     } catch (e) {
       console.error(e);
     }
@@ -54,8 +57,7 @@ export const JobOfferCard: React.FC<OfferCardProps> = ({ job, isOwner }) => {
 
   const onEditJob = async (data, e) => {
     e.stopPropagation();
-    console.log(e);
-    console.log(data);
+
     try {
       await axios.patch(`jobs/${job?.slug}/`, data);
       setDialogOpen(false);

@@ -6,6 +6,7 @@ import useSWR from 'swr';
 import { useAxios } from '../../hooks/useAxios';
 import Pagination from '@material-ui/lab/Pagination';
 import { CompanyWithOwner } from '../../interfaces/Job';
+import { Typography } from '@material-ui/core';
 
 interface CompanyOffersProps {
   company: CompanyWithOwner;
@@ -41,7 +42,11 @@ export const CompanyOffers: React.FC<CompanyOffersProps> = ({ company, isEditing
       ))}
 
       <BoxCenter mt={4} mb={7}>
-        <Pagination count={totalPages} color="primary" onChange={onChange} size="large" />
+        {swrData?.data?.count > 0 ? (
+          <Pagination count={totalPages} color="primary" onChange={onChange} size="large" />
+        ) : (
+          <Typography variant="h5">No offers</Typography>
+        )}
       </BoxCenter>
     </>
   );
