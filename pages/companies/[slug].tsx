@@ -17,7 +17,7 @@ const Company: React.FC<CompanyPageProps> = ({ company, notFound }) => {
 
   return (
     <>
-      <CompanyProfile company={company} />
+      <CompanyProfile company={company} isEditing />
     </>
   );
 };

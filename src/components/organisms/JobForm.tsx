@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Checkbox, TextField } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Controller, useForm } from 'react-hook-form';
@@ -7,6 +7,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import clsx from 'clsx';
 import { BoxCenter } from '@components/atoms/BoxCenter';
 import { DangerButton } from '@components/atoms/DangerButton';
+import { Company } from '../../interfaces/Company';
+import { CompanyWithOwner, Job, JobWithCompanyAndOwner } from '../../interfaces/Job';
 
 export interface IPostEditOffer {
   title: string;
@@ -17,9 +19,11 @@ export interface IPostEditOffer {
   is_remote?: boolean;
 }
 
-interface PostJobForm {
+interface JobFormProps {
   onSubmit: (data: IPostEditOffer) => void;
   handleClose: () => void;
+  isEditing?: boolean;
+  job?: Job | JobWithCompanyAndOwner;
 }
 
 const useStyles = makeStyles((propTheme: Theme) => ({
@@ -94,16 +98,26 @@ const schema = yup.object().shape({
   is_remote: yup.boolean().optional(),
 });
 
-export const PostJobForm: React.FC<PostJobForm> = ({ onSubmit, handleClose }) => {
+export const JobForm: React.FC<JobFormProps> = ({ onSubmit, handleClose, job, isEditing }) => {
   const classes = useStyles();
   const {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: yupResolver(schema),
     mode: 'onSubmit',
   });
+
+  // set initial values to values from job if its present
+  useEffect(() => {
+    if (job) {
+      Object.entries(job).forEach(([key, value]) => {
+        setValue(key, value);
+      });
+    }
+  }, []);
 
   return (
     <form className={classes.container}>
@@ -225,7 +239,7 @@ export const PostJobForm: React.FC<PostJobForm> = ({ onSubmit, handleClose }) =>
           </div>
           <div>
             <Button type="submit" onClick={handleSubmit(onSubmit)} color="primary" variant="contained">
-              Post job
+              {isEditing ? 'Edit' : 'Post'} job
             </Button>
           </div>
         </div>

@@ -9,6 +9,8 @@ import { Box } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { Link } from '@material-ui/core';
 import { useRouter } from 'next/router';
+import { CompanyInfo } from '@components/molecules/CompanyInfo';
+import { Line } from '@components/atoms/Line';
 
 interface JobDetailsMainCardProps {
   job: JobWithCompanyAndOwner;
@@ -33,24 +35,25 @@ export const JobDetailsMainCard: React.FC<JobDetailsMainCardProps> = ({ job }) =
       <Paper className={classes.paper}>
         <MainJobInfo job={job} />
         <DescriptionInfo job={job} />
-      </Paper>
-      <Box mt={6} />
-
-      <Paper className={classes.paper}>
-        <Box display="flex" flexDirection="column" width="100%">
-          <Typography variant="h5">Details</Typography>
-          <Typography variant="body1">{job.description}</Typography>
-          <Box mt={2} />
-          <Typography variant="h5">Apply at</Typography>
-          <Link href={job.company.website_url} target="_blank">
-            {job.company.website_url}
-          </Link>
-        </Box>
         <Box position="absolute" top={25} right={25}>
           <Button color="secondary" variant="contained" onClick={() => router.push(`/companies/${job.company.slug}/`)}>
             Check offers
           </Button>
         </Box>
+      </Paper>
+      <Box mt={6} />
+
+      <Paper className={classes.paper}>
+        <Box display="flex" flexDirection="column" width="100%">
+          <Line header="Details" description={job.description} />
+          <Line header="Apply at" description={job.company.website_url} isLink />
+        </Box>
+      </Paper>
+
+      <Box mt={6} />
+
+      <Paper className={classes.paper}>
+        <CompanyInfo company={job.company} />
       </Paper>
     </BoxCenter>
   );

@@ -15,7 +15,7 @@ interface CompanyInfoProps {
 
 const useStyles = makeStyles((theme) => ({
   infoContainer: {
-    // position: 'relative',
+    maxWidth: 900,
   },
   editButton: {
     top: 25,

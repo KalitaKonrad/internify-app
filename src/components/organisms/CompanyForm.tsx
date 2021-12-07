@@ -7,12 +7,11 @@ import clsx from 'clsx';
 import { DangerButton } from '@components/atoms/DangerButton';
 import * as yup from 'yup';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { IPostEditOffer } from '@components/organisms/PostJobForm';
 import { Company } from '../../interfaces/Company';
 import { CompanyWithOwner } from '../../interfaces/Job';
 
 interface CompanyFormProps {
-  onSubmit: (data: IPostEditOffer) => void;
+  onSubmit: (data) => void;
   handleClose: () => void;
   isEditing?: boolean;
   company?: Company | CompanyWithOwner;
@@ -83,7 +82,7 @@ const useStyles = makeStyles((propTheme: Theme) => ({
 
 const schema = yup.object().shape({
   name: yup.string().required(),
-  establishment: yup.string().optional(),
+  // establishment: yup.string().optional(),
   website_url: yup.string().required(),
   headquarters: yup.string().required(),
   description: yup.string().required(),
@@ -108,7 +107,7 @@ export const CompanyForm: React.FC<CompanyFormProps> = ({ company, handleClose, 
     const companyKeys: Record<keyof Company, boolean> = {
       id: true,
       name: true,
-      establishment: true,
+      // establishment: true,
       website_url: true,
       description: true,
       slug: true,
@@ -224,25 +223,25 @@ export const CompanyForm: React.FC<CompanyFormProps> = ({ company, handleClose, 
           )}
         />
       </div>
-      <div className={classes.fieldContainer}>
-        <Controller
-          control={control}
-          name="establishment"
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              id="establishment"
-              label="Establishment year"
-              variant="outlined"
-              value={value}
-              onChange={onChange}
-              required
-              error={errors.establishment}
-              helperText={errors.establishment && 'Establishment must be a positive number'}
-              className={classes.fullWidth}
-            />
-          )}
-        />
-      </div>
+      {/*<div className={classes.fieldContainer}>*/}
+      {/*  <Controller*/}
+      {/*    control={control}*/}
+      {/*    name="establishment"*/}
+      {/*    render={({ field: { onChange, value } }) => (*/}
+      {/*      <TextField*/}
+      {/*        id="establishment"*/}
+      {/*        label="Establishment year"*/}
+      {/*        variant="outlined"*/}
+      {/*        value={value}*/}
+      {/*        onChange={onChange}*/}
+      {/*        required*/}
+      {/*        error={errors.establishment}*/}
+      {/*        helperText={errors.establishment && 'Establishment must be a positive number'}*/}
+      {/*        className={classes.fullWidth}*/}
+      {/*      />*/}
+      {/*    )}*/}
+      {/*  />*/}
+      {/*</div>*/}
       <div className={classes.submissionContainer}>
         <div className={clsx(classes.submissionBox, classes.editActionsContainer)}>
           <div>

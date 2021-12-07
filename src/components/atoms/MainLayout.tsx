@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Header } from '@components/organisms/Header';
 import { makeStyles } from '@material-ui/core/styles';
-import { PostJobForm } from '@components/organisms/PostJobForm';
+import { JobForm } from '@components/organisms/JobForm';
 import { CustomSnackbar } from '@components/atoms/Snackbar';
 import { useAxios } from '../../hooks/useAxios';
 import { useDialog } from '../../hooks/useDialog';
@@ -24,7 +24,7 @@ export const MainLayout: React.FC = ({ children }) => {
 
   const onPostJobClick = () => {
     setDialogTitle('Post job offer');
-    setDialogChildren(<PostJobForm onSubmit={onSubmit} handleClose={handleClose} />);
+    setDialogChildren(<JobForm onSubmit={onSubmit} handleClose={handleClose} />);
     setDialogOpen(true);
   };
 

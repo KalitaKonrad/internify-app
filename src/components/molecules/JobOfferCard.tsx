@@ -9,6 +9,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { LinkWrapper } from '@components/atoms/LinkWrapper';
 import { DangerButton } from '@components/atoms/DangerButton';
 import { useAxios } from '../../hooks/useAxios';
+import { useDialog } from '../../hooks/useDialog';
+import { CompanyForm } from '@components/organisms/CompanyForm';
+import { JobForm } from '@components/organisms/JobForm';
 
 interface OfferCardProps {
   job: JobWithCompanyAndOwner;
@@ -33,6 +36,7 @@ export const JobOfferCard: React.FC<OfferCardProps> = ({ job, isOwner }) => {
   const classes = useStyles();
 
   const axios = useAxios();
+  const { setDialogChildren, setDialogTitle, setDialogOpen } = useDialog();
 
   const onDelete = async (e) => {
     e.stopPropagation();
@@ -48,6 +52,22 @@ export const JobOfferCard: React.FC<OfferCardProps> = ({ job, isOwner }) => {
     }
   };
 
+  const onEditJob = async (data, e) => {
+    e.stopPropagation();
+    console.log(e);
+    console.log(data);
+    try {
+      await axios.patch(`jobs/${job?.slug}/`, data);
+      setDialogOpen(false);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
+
   return (
     <LinkWrapper href={`/jobs/${job.slug}`} className={classes.offerCard}>
       <BoxCenter minWidth={isOwner ? 1000 : 850}>
@@ -58,7 +78,16 @@ export const JobOfferCard: React.FC<OfferCardProps> = ({ job, isOwner }) => {
             <JobOfferGeneralInfo job={job} />
             {isOwner && (
               <BoxCenter flexDirection="column" ml={2} gridGap={10}>
-                <Button color="primary" variant="outlined">
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDialogTitle('Edit job info');
+                    setDialogChildren(<JobForm job={job} onSubmit={onEditJob} handleClose={handleClose} isEditing />);
+                    setDialogOpen(true);
+                  }}
+                >
                   Edit
                 </Button>
                 <DangerButton variant="outlined" onClick={onDelete}>
