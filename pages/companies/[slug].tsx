@@ -4,6 +4,7 @@ import { CompanyWithOwner } from '../../src/interfaces/Job';
 import React from 'react';
 import ErrorPage from '@components/shared/ErrorPage';
 import { CompanyProfile } from '@components/organisms/CompanyProfile';
+import { BoxCenter } from '@components/atoms/BoxCenter';
 
 interface CompanyPageProps {
   company: CompanyWithOwner;
@@ -16,9 +17,9 @@ const Company: React.FC<CompanyPageProps> = ({ company, notFound }) => {
   }
 
   return (
-    <>
-      <CompanyProfile company={company} isEditing />
-    </>
+    <BoxCenter>
+      <CompanyProfile company={company} />
+    </BoxCenter>
   );
 };
 

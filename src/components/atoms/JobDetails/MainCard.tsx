@@ -31,7 +31,7 @@ export const JobDetailsMainCard: React.FC<JobDetailsMainCardProps> = ({ job }) =
   const router = useRouter();
 
   return (
-    <BoxCenter flexDirection="column" position="relative">
+    <BoxCenter flexDirection="column" position="relative" maxWidth={900}>
       <Paper className={classes.paper}>
         <MainJobInfo job={job} />
         <DescriptionInfo job={job} />

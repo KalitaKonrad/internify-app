@@ -4,12 +4,11 @@ import { BoxCenter } from '@components/atoms/BoxCenter';
 import { Box, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { CompanyOffers } from '@components/organisms/CompanyOffers';
-import { useSession } from '../../hooks/useSession';
-import useSWR from 'swr';
-import { useAxios } from '../../hooks/useAxios';
+import { CompanyWithOwner } from '../../interfaces/Job';
 
 interface CompanyProfileProps {
   isEditing?: boolean;
+  company: CompanyWithOwner;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -23,25 +22,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const CompanyProfile: React.FC<CompanyProfileProps> = ({ isEditing }) => {
+export const CompanyProfile: React.FC<CompanyProfileProps> = ({ isEditing, company }) => {
   const classes = useStyles();
-  const axios = useAxios();
-  const { userCompany } = useSession();
-  const fetcher = (url) => axios.get(url).then((res) => res.data);
 
-  const { data: { data = {} } = {}, error } = useSWR(`companies/${userCompany.slug}/`, fetcher, {
-    refreshInterval: 5000,
-  });
-
-  console.log(data);
   return (
-    <BoxCenter flexDirection="column" p={3}>
+    <BoxCenter flexDirection="column" p={3} maxWidth={1200}>
       <Paper className={classes.paper}>
-        <CompanyInfo company={data} isEditing={isEditing} />
+        <CompanyInfo company={company} isEditing={isEditing} />
       </Paper>
       <Box mt={4} />
       <Paper className={classes.paper}>
-        <CompanyOffers company={data} isEditing={isEditing} />
+        <CompanyOffers company={company} isEditing={isEditing} />
       </Paper>
     </BoxCenter>
   );

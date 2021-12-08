@@ -51,7 +51,11 @@ export const Header: React.FC<HeaderProps> = ({ onPostJobClick }) => {
         </Box>
         <BoxCenter>
           <Box mr={2}>
-            {/*TODO: Add component for displaying avatar and username which pops up to Profile settings and log out option */}
+            <LinkButton href="companies/" color="inherit" variant="outlined">
+              Companies
+            </LinkButton>
+          </Box>
+          <Box mr={2}>
             <HeaderSignIn />
           </Box>
           {userType === UserType.IS_COMPANY && (
