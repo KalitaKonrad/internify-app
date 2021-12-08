@@ -72,7 +72,7 @@ export const JobOfferCard: React.FC<OfferCardProps> = ({ job, isOwner }) => {
 
   return (
     <LinkWrapper href={`/jobs/${job.slug}`} className={classes.offerCard}>
-      <BoxCenter minWidth={isOwner ? 1000 : 850}>
+      <BoxCenter minWidth={isOwner ? 1000 : 900}>
         <Paper elevation={2} className={classes.paper}>
           <BoxCenter mx={4} my={3}>
             <JobOfferAvatar job={job} />

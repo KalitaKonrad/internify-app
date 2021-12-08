@@ -10,6 +10,8 @@ import { PaginatedData } from '../src/interfaces/PaginatedData';
 import useSWR from 'swr';
 import { BoxCenter } from '@components/atoms/BoxCenter';
 import Pagination from '@material-ui/lab/Pagination';
+import { SearchBar } from '@components/atoms/SearchBar';
+import { Box } from '@material-ui/core';
 
 interface JobPageProps {
   data: PaginatedData<CompanyWithOwner>;
@@ -32,8 +34,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const CompaniesPage: React.FC<JobPageProps> = ({ data, notFound }) => {
   const classes = useStyles();
-  const totalPages = Math.ceil(data.count / 10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [query, setQuery] = useState('');
 
   const onChange = (event, page: number) => {
     setCurrentPage(page);
@@ -42,7 +44,9 @@ const CompaniesPage: React.FC<JobPageProps> = ({ data, notFound }) => {
   const axios = useAxios();
   const fetcher = (url) => axios.get(url).then((res) => res.data);
 
-  const { data: swrData, error } = useSWR(`companies/?page=${currentPage}`, fetcher);
+  const { data: swrData, error } = useSWR(`companies/?page=${currentPage}${query ? `&q=${query}` : ''}`, fetcher);
+
+  const totalPages = Math.ceil((swrData?.data?.count || data?.count) / 10);
 
   if (!data?.results || notFound) {
     return <ErrorPage />;
@@ -50,6 +54,14 @@ const CompaniesPage: React.FC<JobPageProps> = ({ data, notFound }) => {
 
   return (
     <div className={classes.root}>
+      <Box flexGrow={1} mb={4} maxWidth={300}>
+        <SearchBar
+          onChange={(e) => {
+            setCurrentPage(1);
+            setQuery(e.target.value.trim());
+          }}
+        />
+      </Box>
       <Grid container spacing={2}>
         {(swrData?.data?.results || data?.results).map((company) => (
           <Grid item xs={12} sm={6} md={4}>

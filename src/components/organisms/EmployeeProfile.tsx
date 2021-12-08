@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const EmployeeProfile: React.FC<EmployeeProfileProps> = () => {
+export const EmployeeProfile: React.FC = () => {
   const classes = useStyles();
   const { userEmployee } = useSession();
 
