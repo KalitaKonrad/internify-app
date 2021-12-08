@@ -14,14 +14,14 @@ interface CompanyOffersProps {
 }
 
 export const CompanyOffers: React.FC<CompanyOffersProps> = ({ company, isEditing }) => {
-  const { session } = useSession();
-
   const axios = useAxios();
   const fetcher = (url) => axios.get(url).then((res) => res.data);
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: swrData, error } = useSWR(`companies/${company?.slug}/offers/?page=${currentPage}`, fetcher);
+  const { data: swrData, error } = useSWR(`companies/${company?.slug}/offers/?page=${currentPage}`, fetcher, {
+    refreshInterval: 5000,
+  });
 
   const totalPages = Math.ceil(swrData?.data?.count / 10 ?? 0);
 
@@ -29,12 +29,13 @@ export const CompanyOffers: React.FC<CompanyOffersProps> = ({ company, isEditing
     setCurrentPage(page);
   };
 
-  if (!company) {
+  if (!company || error) {
     return null;
   }
 
   return (
     <>
+      {swrData?.data?.count > 0 && <Typography variant="h5">My offers</Typography>}
       {(swrData?.data?.results || []).map((job) => (
         <BoxCenter my={1} key={job.id}>
           <JobOfferCard job={job} isOwner={isEditing} />

@@ -1,15 +1,10 @@
-import { useAxios } from '../../src/hooks/useAxios';
-import React, { useCallback } from 'react';
+import React from 'react';
 import ErrorPage from '@components/shared/ErrorPage';
-import { useSession } from '../../src/hooks/useSession';
-import useSWR from 'swr';
-import { Box, Paper, Typography } from '@material-ui/core';
+import { UserType, useSession } from '../../src/hooks/useSession';
 import { BoxCenter } from '@components/atoms/BoxCenter';
 import { makeStyles } from '@material-ui/core/styles';
-import { CompanyOffers } from '@components/organisms/CompanyOffers';
-import { Line } from '@components/atoms/Line';
-import { CompanyInfo } from '@components/molecules/CompanyInfo';
 import { CompanyProfile } from '@components/organisms/CompanyProfile';
+import { EmployeeProfile } from '@components/organisms/EmployeeProfile';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,50 +21,20 @@ interface ProfilePageProps {
 }
 
 const Profile: React.FC<ProfilePageProps> = () => {
-  const { session } = useSession();
+  const { isAuth, userEmployee, userType } = useSession();
   const classes = useStyles();
 
-  // TODO: change
-  const isCompany = true;
-
-  if (!session) {
+  if (!isAuth) {
     return <ErrorPage />;
   }
 
-  return isCompany ? (
-    <CompanyProfile />
+  return userType === UserType.IS_COMPANY ? (
+    <CompanyProfile isEditing />
   ) : (
     <BoxCenter flexDirection="column">
-      <Paper className={classes.paper}>
-        <Box>
-          <Line header="Email" description={session.email} />
-          <Line header="Username" description={session.username} />
-        </Box>
-      </Paper>
-      <Box mt={6} />
+      <EmployeeProfile />
     </BoxCenter>
   );
 };
 
 export default Profile;
-//
-// export const getServerSideProps: GetServerSideProps<ProfilePageProps> = async () => {
-//   const axios = useAxios();
-//   try {
-//     const {
-//       data: { data },
-//     } = await axios.get(`auth/me/`);
-//
-//     return {
-//       props: {
-//         company: data,
-//       },
-//     };
-//   } catch (e) {
-//     console.error(e);
-//   }
-//
-//   return {
-//     notFound: true,
-//   };
-// };

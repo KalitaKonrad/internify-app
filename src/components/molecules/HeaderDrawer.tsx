@@ -6,7 +6,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { SignInButtons } from '@components/atoms/SignInButtons';
 import { DrawerProfileInfo } from '@components/atoms/HeaderDrawer/DrawerProfileInfo';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSession } from '../../hooks/useSession';
+import { UserType, useSession } from '../../hooks/useSession';
 
 interface HeaderDrawerProps {
   drawerOpen: boolean;
@@ -34,8 +34,10 @@ const useStyles = makeStyles((theme) => ({
 
 export const HeaderDrawer: React.FC<HeaderDrawerProps> = ({ drawerOpen, setDrawerOpen }) => {
   const classes = useStyles();
-  const { session, logout } = useSession();
-  const isAuth = !!session?.username && session?.email;
+  const { isAuth, userCompany, userEmployee, userType, logout } = useSession();
+
+  const username = userType === UserType.IS_COMPANY ? userCompany?.owner?.username : userEmployee?.user?.username;
+  const email = userType === UserType.IS_COMPANY ? userCompany?.owner?.email : userEmployee?.user?.email;
 
   return (
     <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)} classes={{ paper: classes.paper }}>
@@ -57,7 +59,7 @@ export const HeaderDrawer: React.FC<HeaderDrawerProps> = ({ drawerOpen, setDrawe
           </DrawerLineItem>
 
           {isAuth && (
-            <DrawerProfileInfo username={session?.username || ''} email={session?.email || ''} photo={'hehe'} />
+            <DrawerProfileInfo username={username} email={email} photo={'hehe'} setDrawerOpen={setDrawerOpen} />
           )}
           {!isAuth && (
             <DrawerLineItem>

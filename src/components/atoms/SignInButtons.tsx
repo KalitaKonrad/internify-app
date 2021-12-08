@@ -7,6 +7,7 @@ import { ButtonIcon } from '@components/atoms/ButtonIcon';
 import { useDialog } from '../../hooks/useDialog';
 import { SignInForm } from '@components/organisms/SignInForm';
 import clsx from 'clsx';
+import { UserType } from '../../hooks/useSession';
 
 const useStyles = makeStyles((theme) => ({
   employeeButtonWrapper: {
@@ -42,7 +43,7 @@ export const SignInButtons: React.FC<SignInButtonsProps> = ({ setDrawerOpen, noB
       <ButtonIcon
         onClick={() => {
           setDialogTitle('Sign in');
-          setDialogChildren(<SignInForm />);
+          setDialogChildren(<SignInForm usertype={UserType.IS_EMPLOYEE} />);
           setDialogOpen(true);
           setDrawerOpen?.(false);
         }}
@@ -55,7 +56,7 @@ export const SignInButtons: React.FC<SignInButtonsProps> = ({ setDrawerOpen, noB
       <ButtonIcon
         onClick={() => {
           setDialogTitle('Sign in');
-          setDialogChildren(<SignInForm />);
+          setDialogChildren(<SignInForm usertype={UserType.IS_COMPANY} />);
           setDialogOpen(true);
           setDrawerOpen?.(false);
         }}

@@ -11,10 +11,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useRouter } from 'next/router';
-import { useSession } from '../../hooks/useSession';
+import { UserType, useSession } from '../../hooks/useSession';
 import { useDialog } from '../../hooks/useDialog';
 import NextLink from 'next/link';
 import { Link } from '@material-ui/core';
+import { SignUpForm } from '@components/organisms/SignUpForm';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,8 +38,10 @@ const useStyles = makeStyles((theme) => ({
 
 interface SignInFormProps {
   setDrawerOpen?: (val: boolean) => void;
+  usertype: UserType;
 }
-export const SignInForm: React.FC<SignInFormProps> = ({ setDrawerOpen }) => {
+
+export const SignInForm: React.FC<SignInFormProps> = ({ usertype }) => {
   const router = useRouter();
   const initialFormData = Object.freeze({
     email: '',
@@ -131,8 +134,9 @@ export const SignInForm: React.FC<SignInFormProps> = ({ setDrawerOpen }) => {
                 href="#"
                 variant="body2"
                 onClick={() => {
-                  setDialogOpen(false);
-                  router.push('/auth/forgot-password/');
+                  setDialogOpen(true);
+                  setDialogTitle('Sign up');
+                  setDialogChildren(<SignUpForm usertype={usertype} />);
                 }}
               >
                 {"Don't have an account? Sign Up"}

@@ -11,6 +11,7 @@ import { HeaderSignIn } from '@components/molecules/HeaderSignIn';
 import { BoxCenter } from '@components/atoms/BoxCenter';
 import { LinkButton } from '@components/atoms/HeaderDrawer/LinkButton';
 import NextLink from 'next/link';
+import { UserType, useSession } from '../../hooks/useSession';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -36,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ onPostJobClick }) => {
   const classes = useStyles();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
+  const { isAuth, userType } = useSession();
 
   return (
     <AppBar position="sticky" color="primary" elevation={0} className={classes.appBar}>
@@ -53,11 +54,13 @@ export const Header: React.FC<HeaderProps> = ({ onPostJobClick }) => {
             {/*TODO: Add component for displaying avatar and username which pops up to Profile settings and log out option */}
             <HeaderSignIn />
           </Box>
-          <Box mr={2}>
-            <LinkButton onClick={onPostJobClick} color="inherit" variant="outlined">
-              Post a Job
-            </LinkButton>
-          </Box>
+          {userType === UserType.IS_COMPANY && (
+            <Box mr={2}>
+              <LinkButton onClick={onPostJobClick} color="inherit" variant="outlined">
+                Post a Job
+              </LinkButton>
+            </Box>
+          )}
           <IconButton
             aria-label={isAuth ? 'account of current user' : 'menu settings'}
             aria-controls="menu-appbar"

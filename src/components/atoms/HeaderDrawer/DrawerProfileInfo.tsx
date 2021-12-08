@@ -10,6 +10,7 @@ interface DrawerProfileInfoProps {
   username: string;
   email: string;
   photo?: string;
+  setDrawerOpen: (val: boolean) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const DrawerProfileInfo: React.FC<DrawerProfileInfoProps> = ({ username, photo }) => {
+export const DrawerProfileInfo: React.FC<DrawerProfileInfoProps> = ({ username, photo, setDrawerOpen }) => {
   const classes = useStyles();
 
   return (
@@ -50,7 +51,7 @@ export const DrawerProfileInfo: React.FC<DrawerProfileInfoProps> = ({ username, 
         </BoxCenter>
       </DrawerLineItem>
       <NextLink href="/account/profile" passHref>
-        <Button variant="outlined" className={classes.menuButton} size="large">
+        <Button onClick={() => setDrawerOpen(false)} variant="outlined" className={classes.menuButton} size="large">
           <BoxCenter mr={1}>
             <AccountCircle color="primary" />
           </BoxCenter>

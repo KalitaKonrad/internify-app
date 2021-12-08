@@ -4,11 +4,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import { ButtonIcon } from '@components/atoms/ButtonIcon';
-import FaceIcon from '@material-ui/icons/Face';
-import BusinessIcon from '@material-ui/icons/Business';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import { makeStyles } from '@material-ui/core/styles';
@@ -29,9 +25,7 @@ export const HeaderSignIn: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const classes = useStyles();
-  const { session } = useSession();
-
-  const isAuth = !!session?.username && session?.email;
+  const { isAuth } = useSession();
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);

@@ -4,8 +4,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -13,10 +11,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useRouter } from 'next/router';
 import { useAxios } from '../../hooks/useAxios';
+import { useDialog } from '../../hooks/useDialog';
+import { SignInForm } from '@components/organisms/SignInForm';
+import { UserType } from '../../hooks/useSession';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -34,12 +34,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const SignUp: React.FC = () => {
+interface SignUpProps {
+  usertype: string;
+}
+
+export const SignUpForm: React.FC<SignUpProps> = ({ usertype }) => {
   const router = useRouter();
   const initialFormData = Object.freeze({
     email: '',
     username: '',
     password: '',
+  });
+
+  const [errors, setErrors] = useState({
+    email: [],
+    username: [],
+    password: [],
   });
 
   const [formData, updateFormData] = useState(initialFormData);
@@ -54,23 +64,24 @@ export const SignUp: React.FC = () => {
 
   const axios = useAxios();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
 
-    axios
-      .post(`user/create/`, {
-        email: formData.email,
-        user_name: formData.username,
-        password: formData.password,
-      })
-      .then((res) => {
-        router.push('/login');
-        console.log(res);
-        console.log(res.data);
+    const { email, username, password } = formData;
+    try {
+      await axios.post('auth/register/', {
+        email,
+        username,
+        password,
+        user_type: usertype,
       });
+      setDialogOpen(false);
+    } catch (e) {
+      setErrors(e.response.data.errors);
+    }
   };
 
+  const { setDialogChildren, setDialogTitle, setDialogOpen } = useDialog();
   const classes = useStyles();
 
   return (
@@ -79,7 +90,7 @@ export const SignUp: React.FC = () => {
       <div className={classes.paper}>
         <Avatar className={classes.avatar} />
         <Typography component="h1" variant="h5">
-          Sign up
+          Sign up as {usertype === UserType.IS_COMPANY ? 'company' : 'employee'}
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
@@ -93,6 +104,8 @@ export const SignUp: React.FC = () => {
                 name="email"
                 autoComplete="email"
                 onChange={handleChange}
+                helperText={errors['email']?.[0]}
+                error={!!errors['email']?.[0]}
               />
             </Grid>
             <Grid item xs={12}>
@@ -105,6 +118,8 @@ export const SignUp: React.FC = () => {
                 name="username"
                 autoComplete="username"
                 onChange={handleChange}
+                helperText={errors['username']?.[0]}
+                error={!!errors['username']?.[0]}
               />
             </Grid>
             <Grid item xs={12}>
@@ -118,6 +133,8 @@ export const SignUp: React.FC = () => {
                 id="password"
                 autoComplete="current-password"
                 onChange={handleChange}
+                helperText={errors['password']?.[0]}
+                error={!!errors['password']?.[0]}
               />
             </Grid>
           </Grid>
@@ -133,7 +150,16 @@ export const SignUp: React.FC = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link
+                href="#"
+                onClick={() => {
+                  setDialogOpen(true);
+                  setDialogTitle('Sign in');
+                  // TODO: this logic is wrong, should pass dynamic UserType
+                  setDialogChildren(<SignInForm usertype={UserType.IS_EMPLOYEE} />);
+                }}
+                variant="body2"
+              >
                 Already have an account? Sign in
               </Link>
             </Grid>
