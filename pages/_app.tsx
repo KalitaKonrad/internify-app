@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   }, []);
 
   return (
-    <>
+    <div id="main-app">
       <Head>
         <title>Internify</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           </DialogProvider>
         </SessionProvider>
       </ThemeProvider>
-    </>
+    </div>
   );
 }
 

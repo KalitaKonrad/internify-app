@@ -25,8 +25,8 @@ export const CompanyDetailsMainCard: React.FC<CompanyDetailsMainCardProps> = ({ 
   return (
     <BoxCenter>
       <Paper className={classes.paper}>
-        <MainJobInfo job={job} />
-        <DescriptionInfo job={job} />
+        {/*<MainJobInfo job={job} />*/}
+        {/*<DescriptionInfo job={job} />*/}
       </Paper>
     </BoxCenter>
   );

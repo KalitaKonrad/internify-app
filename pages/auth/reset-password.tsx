@@ -6,10 +6,10 @@ import { Typography } from '@material-ui/core';
 import { NewPasswordForm } from '@components/organisms/NewPasswordForm';
 
 interface ResetPasswordPageProps {
-  uidb64: string;
-  token: string;
+  uidb64?: string;
+  token?: string;
   notFound?: boolean;
-  error?: boolean;
+  error?: string;
 }
 
 const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ uidb64, token, notFound, error }) => {
@@ -50,8 +50,8 @@ export const getServerSideProps: GetServerSideProps<ResetPasswordPageProps> = as
 
   return {
     props: {
-      uidb64,
-      token,
+      uidb64: uidb64 as string,
+      token: token as string,
     },
   };
 

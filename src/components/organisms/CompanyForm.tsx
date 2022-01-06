@@ -104,6 +104,7 @@ export const CompanyForm: React.FC<CompanyFormProps> = ({ company, handleClose, 
 
   // set initial values to values from comapny if its present
   useEffect(() => {
+    // @ts-ignore
     const companyKeys: Record<keyof Company, boolean> = {
       id: true,
       name: true,

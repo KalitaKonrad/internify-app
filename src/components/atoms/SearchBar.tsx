@@ -21,9 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.common.white,
       position: 'relative',
       borderRadius: 25,
-      backgroundColor: alpha(theme.palette.success.main, 0.9),
+      backgroundColor: alpha(theme.palette.secondary.main, 0.77),
       '&:hover': {
-        backgroundColor: alpha(theme.palette.success.main, 0.96),
+        backgroundColor: alpha(theme.palette.secondary.main, 0.85),
       },
       transition: 'background-color 0.2s ease',
       // marginRight: theme.spacing(2),

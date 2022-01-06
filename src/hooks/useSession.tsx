@@ -34,7 +34,7 @@ export interface UserCompanyPayload {
 
 export type LoginUser = (email: string, password: string) => Promise<UserPayload>;
 
-export type RegisterUser = (email: string, username: string, password: string) => Promise<UserPayload>;
+// export type RegisterUser = (email: string, username: string, password: string) => Promise<UserPayload>;
 
 export type LogoutUser = () => Promise<void>;
 
@@ -43,7 +43,7 @@ export interface Session {
   // session?: UserPayload;
   login: LoginUser;
   logout: LogoutUser;
-  registerUser: RegisterUser;
+  // registerUser: RegisterUser;
   userType: UserType;
   userEmployee: UserEmployeePayload;
   userCompany: UserCompanyPayload;
@@ -55,7 +55,7 @@ const SessionContext = React.createContext<Session>({
   // session: null,
   login: () => null,
   logout: () => null,
-  registerUser: () => null,
+  // registerUser: () => null,
   userType: null,
   userEmployee: null,
   userCompany: null,
